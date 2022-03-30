@@ -46,15 +46,15 @@ class ClientApp(BrandsLog):
         super(ClientApp, self).__init__(Path_Ckpt,labelmap_ph)
 
 
-# templates = Jinja2Templates(directory="webapp/templates")
+templates = Jinja2Templates(directory="webapp/templates")
 
-# @app.get("/",response_class=HTMLResponse)
-# def read(request:Request):
-#     return templates.TemplateResponse("index.html",{"request":request})
+@app.get("/",response_class=HTMLResponse)
+def read(request:Request):
+    return templates.TemplateResponse("index.html",{"request":request})
 
 
 @app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
-async def predict(file:ClientImageInput):
+def predict(file:ClientImageInput):
     clApp.base64toimage = file.image
     output = clApp.getPredictions()
     return output
