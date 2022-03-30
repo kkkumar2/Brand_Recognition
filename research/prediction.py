@@ -9,9 +9,12 @@ import numpy as  np
 import base64
 import glob
 import cv2
-from typing import Union,Optional,Any,List
 import io
+
+from typing import Union,Optional,Any,List,ByteString
 from nptyping import NDArray
+
+
 class BrandsLog:
     def __init__(self,Path_To_Ckpt:Path,labelmap_path:Path) -> None:
 
@@ -30,7 +33,7 @@ class BrandsLog:
                 tf.import_graph_def(od_graph_def, name='')
 
     @property
-    def base64toimage(self) -> NDArray[np.unit8]  :
+    def base64toimage(self) -> NDArray[np.uint8]  :
 
         img = Image.open(self.bytesObj)
         del self.bytesObj
@@ -43,7 +46,19 @@ class BrandsLog:
         base64str = base64.b64decode(img_strings)
         self.bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
 
+    @base64toimage.deleter
+    def base64toimage(self):
+        del self.bytesObj
 
+    def _imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
+        
+        img_RGB = cv2.cvtColor(ImageArray,cv2.COLOR_BGR2RGB)
+        image_array = Image.fromarray(img_RGB)
+        buffered = io.BytesIO()
+        image_array.save(buffered,format="png")
+        bas64str = base64.b64encode(buffered.getvalue()).decode('utf-8') #https://stackoverflow.com/questions/31826335/how-to-convert-pil-image-image-object-to-base64-string
+        
+        return bas64str
         
 
     def getPredictions(self):
@@ -62,7 +77,7 @@ class BrandsLog:
 
         image =  self.base64toimage
         image_expand = np.expand_dims(image,axis=0)
-        del self.base64toimage
+
 
         (boxes,scores,classes,num) = sess.run([detection_boxes,detection_scores
                                             ,detection_classes,num_detections]
@@ -80,7 +95,7 @@ class BrandsLog:
         new_box = boxes.squeeze()
         max_boxes_to_draw = new_box.shape[0]
 
-        listofoutput = []
+        ListOfOutput = []
 
         for name,score,i in zip(clss_name,top_score,range(min(max_boxes_to_draw,new_box.shape[0]))):
             valDict = {}
@@ -93,7 +108,8 @@ class BrandsLog:
                 valDict['xMin'] = str(val[1])
                 valDict['yMax'] = str(val[2])
                 valDict['xMax'] = str(val[3])
-                listofoutput.append(valDict)
+
+                ListOfOutput.append(valDict)
             
         vis_util.visualize_boxes_and_labels_on_image_array(
             image
@@ -108,6 +124,10 @@ class BrandsLog:
             )
         
         cv2.imwrite("output4.jpg",image)
+
+        ListOfOutput.append({"image":self._imagetobase64(image)})
+
+        return ListOfOutput
 
 
 
