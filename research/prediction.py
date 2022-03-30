@@ -10,8 +10,8 @@ import base64
 import glob
 import cv2
 from typing import Union,Optional,Any,List
-# from nptyping import NDArray
-
+import io
+from nptyping import NDArray
 class BrandsLog:
     def __init__(self,Path_To_Ckpt:Path,labelmap_path:Path) -> None:
 
@@ -30,17 +30,21 @@ class BrandsLog:
                 tf.import_graph_def(od_graph_def, name='')
 
     @property
-    def base64toimage(self) -> Path  :
-        assert os.path.exists("prediction_service/inputimage.jpg") , "Image path not found"
-        img_path = "prediction_service\\inputimage.jpg"
-        return img_path
+    def base64toimage(self) -> NDArray[np.unit8]  :
+
+        img = Image.open(self.bytesObj)
+        del self.bytesObj
+        img_cv = cv2.cvtColor(np.array(img),cv2.COLOR_RGB2BGR) #https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format
+        
+        return img_cv
 
     @base64toimage.setter
-    def base64toimage(self,img_strings:str) :
-        os.makedirs("prediction_service",exist_ok=True)
-        img = base64.b64decode(img_strings)
-        with open("prediction_service\\inputimage.jpg","wb") as f:
-            f.write(img)
+    def base64toimage(self,img_strings:Optional[bytes]) :
+        base64str = base64.b64decode(img_strings)
+        self.bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
+
+
+        
 
     def getPredictions(self):
         
@@ -55,9 +59,11 @@ class BrandsLog:
         min_score_thresh = 0.30 
 
         sess = tf.Session(graph=self.detection_graph)
-        image = cv2.imread(self.base64toimage)
 
+        image =  self.base64toimage
         image_expand = np.expand_dims(image,axis=0)
+        del self.base64toimage
+
         (boxes,scores,classes,num) = sess.run([detection_boxes,detection_scores
                                             ,detection_classes,num_detections]
                                            ,feed_dict={image_tensor:image_expand})
