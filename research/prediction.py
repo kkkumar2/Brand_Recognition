@@ -10,6 +10,7 @@ import base64
 import glob
 import cv2
 import io
+import re 
 
 from typing import Union,Optional,Any,List,ByteString
 from nptyping import NDArray
@@ -21,8 +22,9 @@ class BrandsLog:
 
         labelmap = label_map_util.load_labelmap(labelmap_path)
         self.categories = label_map_util.convert_label_map_to_categories(labelmap
-                                                                    ,max_num_classes = 6
+                                                                    ,max_num_classes = self._Num_Classes_Label_map(labelmap_path) 
                                                                     ,use_display_name=True)
+        # we can direct extract num class label map "labelmap" variable but it take time for me debugging code so i have use custom function but it not optimally way
 
         self.detection_graph = tf.Graph()
         with self.detection_graph.as_default():
@@ -46,9 +48,6 @@ class BrandsLog:
         base64str = base64.b64decode(img_strings)
         self.bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
 
-    @base64toimage.deleter
-    def base64toimage(self):
-        del self.bytesObj
 
     def _imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
         
@@ -59,7 +58,12 @@ class BrandsLog:
         bas64str = base64.b64encode(buffered.getvalue()).decode('utf-8') #https://stackoverflow.com/questions/31826335/how-to-convert-pil-image-image-object-to-base64-string
         
         return bas64str
-        
+
+    def _Num_Classes_Label_map(self,LabelMapPath:Path) -> int:
+        with open(LabelMapPath,'r') as f:
+            data = f.read()
+        total_classes = re.findall(r"\d+",data)[-1]
+        return total_classes
 
     def getPredictions(self):
         
