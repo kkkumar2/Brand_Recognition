@@ -4,7 +4,8 @@ from PIL import Image
 import cv2
 import numpy as np
 from pydantic import BaseModel
-
+from pathlib import Path
+import yaml
 
 def error_handel_user_images(base64bytes:str):
 
@@ -30,3 +31,9 @@ class ClientImageOutput(BaseModel):
 
 
     
+def read_yaml(filename:Path) -> dict:
+
+    with open(filename , 'r') as config_file:
+        data = yaml.safe_load(config_file)
+    
+    return data
