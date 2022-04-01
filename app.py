@@ -1,5 +1,4 @@
 
-import re
 from fastapi import FastAPI ,Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -19,7 +18,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["POST"], 
+    allow_methods=["POST","GET"], 
     allow_headers=["*"],
     max_age=2 # how mcuh hit api per second
     )
@@ -59,18 +58,19 @@ class ClientApp(BrandsLog):
 clApp = ClientApp("prediction_service\\save_model\\frozen_inference_graph.pb","prediction_service\\labelmap\\labelmap.pbtxt")
 
 
-templates = Jinja2Templates(directory="webapp/templates")
+# templates = Jinja2Templates(directory="webapp/templates")
 
-@app.get("/",response_class=HTMLResponse)
-def read(request:Request):
-    return templates.TemplateResponse("index.html",{"request":request})
+# @app.get("/",response_class=HTMLResponse)
+# def read(request:Request):
+#     return templates.TemplateResponse("index.html",{"request":request})
 
 
 @app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
 def predict(file:ClientImageInput):
-    if not isinstance(file.image ,str):
-        raise NotEncodeBase64(message="image not in bytes format" )
-    elif isinstance(file.image,str):
+    s = file.image
+    if not isinstance(file.image ,bytes):
+        raise NotEncodeBase64(message="image not in enocde bytes format" )
+    elif isinstance(file.image,bytes):
         try:
             error_handel_user_images(file.image)
         except :
