@@ -1,6 +1,5 @@
 from research.object_detection.utils import label_map_util
 from research.object_detection.utils import visualization_utils as vis_util
-from research.object_detection.utils import ops as utils_ops
 import os
 import tensorflow as tf
 from pathlib import Path
@@ -63,7 +62,7 @@ class BrandsLog:
         with open(LabelMapPath,'r') as f:
             data = f.read()
         total_classes = re.findall(r"\d+",data)[-1]
-        return total_classes
+        return int(total_classes)
 
     def getPredictions(self):
         
