@@ -36,17 +36,15 @@ class BrandsLog:
     @property
     def base64toimage(self) -> NDArray[np.uint8]  :
 
-        img = Image.open(self.bytesObj)
-        del self.bytesObj
-        img_cv = cv2.cvtColor(np.array(img),cv2.COLOR_RGB2BGR) #https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format
-        
+        img_cv = cv2.cvtColor(np.array(self.imagePil),cv2.COLOR_RGB2BGR) #https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format      
         return img_cv
 
     @base64toimage.setter
     def base64toimage(self,img_strings:Optional[bytes]) :
         base64str = base64.b64decode(img_strings)
-        self.bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
-
+        bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
+        self.imagePil = Image.open(bytesObj)
+        
 
     def _imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
         
