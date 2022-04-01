@@ -47,9 +47,6 @@ def image_not_open(request:Request , exc:ImageIsNotOpening):
         ,content = {"message":f"{exc.message}"}
     )
 
-
-
-
 class ClientApp(BrandsLog):
     def __init__(self,Path_Ckpt:Path,labelmap_ph:Path):
         super(ClientApp, self).__init__(Path_Ckpt,labelmap_ph)
@@ -67,16 +64,16 @@ clApp = ClientApp("prediction_service\\save_model\\frozen_inference_graph.pb","p
 
 @app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
 def predict(file:ClientImageInput):
-    s = file.image
+
     if not isinstance(file.image ,bytes):
         raise NotEncodeBase64(message="image not in enocde bytes format" )
     elif isinstance(file.image,bytes):
         try:
-            error_handel_user_images(file.image)
+            clApp.base64toimage = file.image
         except :
             raise ImageIsNotOpening(message="image is Not opening")
 
-    clApp.base64toimage = file.image
+    
     output = clApp.getPredictions()
     return output
     
