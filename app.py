@@ -7,7 +7,7 @@ import uvicorn
 from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from typing import Optional,List,Union,Dict
 from pathlib import Path
-from utils.all_utills import ClientImageInput,ClientImageOutput,error_handel_user_images
+from utils.all_utills import ClientImageInput,ClientImageOutput
 from research.prediction import BrandsLog
 
 
@@ -64,7 +64,6 @@ clApp = ClientApp("prediction_service\\save_model\\frozen_inference_graph.pb","p
 
 @app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
 def predict(file:ClientImageInput):
-
     if not isinstance(file.image ,bytes):
         raise NotEncodeBase64(message="image not in enocde bytes format" )
     elif isinstance(file.image,bytes):
@@ -76,8 +75,6 @@ def predict(file:ClientImageInput):
     
     output = clApp.getPredictions()
     return output
-    
-    # return {'sandee':6}
     
 if __name__ == "__main__":
     uvicorn.run(app,port=8080)
