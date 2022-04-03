@@ -44,16 +44,15 @@ class BrandsLog:
         base64str = base64.b64decode(img_strings)
         bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
         self.imagePil = Image.open(bytesObj)
-        
 
     def _imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
         
         img_RGB = cv2.cvtColor(ImageArray,cv2.COLOR_BGR2RGB)
         image_array = Image.fromarray(img_RGB)
         buffered = io.BytesIO()
-        image_array.save(buffered,format="png")
+        image_array.save(buffered,format="JPEG")
         bas64str = base64.b64encode(buffered.getvalue()).decode('utf-8') #https://stackoverflow.com/questions/31826335/how-to-convert-pil-image-image-object-to-base64-string
-        
+        buffered.close()
         return bas64str
 
     def _Num_Classes_Label_map(self,LabelMapPath:Path) -> int:
