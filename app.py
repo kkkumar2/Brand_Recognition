@@ -7,9 +7,9 @@ import uvicorn
 from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from typing import Optional,List,Union,Dict
 from pathlib import Path
-from utils.all_utills import ClientImageInput,ClientImageOutput
+from utils.all_utills import ClientImageInput,ClientImageOutput, ModelLabelmapPath
 from research.prediction import BrandsLog
-
+import os
 
 app  = FastAPI()
 
@@ -47,12 +47,13 @@ def image_not_open(request:Request , exc:ImageIsNotOpening):
         ,content = {"message":f"{exc.message}"}
     )
 
+Pathmodellabelmap = ModelLabelmapPath.get_config_path(os.path.join("config",'config.yaml'))
 class ClientApp(BrandsLog):
-    def __init__(self,Path_Ckpt:Path,labelmap_ph:Path):
-        super(ClientApp, self).__init__(Path_Ckpt,labelmap_ph)
+    def __init__(self,**kwargs):
+        super(ClientApp, self).__init__(**kwargs)
 
 
-clApp = ClientApp("prediction_service\\save_model\\frozen_inference_graph.pb","prediction_service\\labelmap\\labelmap.pbtxt")
+clApp = ClientApp(**Pathmodellabelmap)
 
 
 # templates = Jinja2Templates(directory="webapp/templates")
