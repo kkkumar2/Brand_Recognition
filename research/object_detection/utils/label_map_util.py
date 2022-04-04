@@ -71,7 +71,7 @@ def get_max_label_map_index(label_map):
 
 
 def convert_label_map_to_categories(label_map,
-                                    max_num_classes,
+                                    max_num_classes=None, # sandeep jean edited
                                     use_display_name=True):
   """Given label map proto returns categories list compatible with eval.
 
@@ -96,6 +96,17 @@ def convert_label_map_to_categories(label_map,
   Returns:
     categories: a list of dictionaries representing all possible categories.
   """
+  # sandeep jena
+  sandeep = [item.id for item in label_map.item]
+  # print(type(sandeep[-1]))
+  if not max_num_classes:
+    max_num_classes = sandeep[-1]
+
+
+
+
+
+
   categories = []
   list_of_ids_already_added = []
   if not label_map:

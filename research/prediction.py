@@ -16,14 +16,15 @@ from nptyping import NDArray
 
 
 class BrandsLog:
-    def __init__(self,Path_To_Ckpt:Path,labelmap_path:Path) -> None:
+    def __init__(self,Path_To_Ckpt:Path,Labelmap_Path:Path) -> None:
 
 
-        labelmap = label_map_util.load_labelmap(labelmap_path)
-        self.categories = label_map_util.convert_label_map_to_categories(labelmap
-                                                                    ,max_num_classes = self._Num_Classes_Label_map(labelmap_path) 
-                                                                    ,use_display_name=True)
-        # we can direct extract num class label map "labelmap" variable but it take time for me debugging code so i have use custom function but it not optimally way
+        labelmap = label_map_util.load_labelmap(Labelmap_Path)
+        self.categories = label_map_util.convert_label_map_to_categories(labelmap,
+                                                                         use_display_name=True
+                                                                    # ,max_num_classes = self._Num_Classes_Label_map(Labelmap_Path) 
+                                                                    )
+        #  I have successful change the source code i have don't need to given max_num_classes 
 
         self.detection_graph = tf.Graph()
         with self.detection_graph.as_default():
@@ -52,14 +53,14 @@ class BrandsLog:
         buffered = io.BytesIO()
         image_array.save(buffered,format="JPEG")
         bas64str = base64.b64encode(buffered.getvalue()).decode('utf-8') #https://stackoverflow.com/questions/31826335/how-to-convert-pil-image-image-object-to-base64-string
-        buffered.close()
+        buffered.flush()
         return bas64str
 
-    def _Num_Classes_Label_map(self,LabelMapPath:Path) -> int:
-        with open(LabelMapPath,'r') as f:
-            data = f.read()
-        total_classes = re.findall(r"\d+",data)[-1]
-        return int(total_classes)
+    # def _Num_Classes_Label_map(self,LabelMapPath:Path) -> int:
+    #     with open(LabelMapPath,'r') as f:
+    #         data = f.read()
+    #     total_classes = re.findall(r"\d+",data)[-1]
+    #     return int(total_classes)
 
     def getPredictions(self):
         
@@ -123,7 +124,7 @@ class BrandsLog:
 
             )
         
-        cv2.imwrite("output4.jpg",image)
+        # cv2.imwrite("output4.jpg",image)
 
         ListOfOutput.append({"image":self._imagetobase64(image)})
 
