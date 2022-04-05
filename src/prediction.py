@@ -33,16 +33,17 @@ tf.gfile = tf.io.gfile
 
 
 class BrandsLog:
-    def __init__(self,Path_To_Ckpt:Path,labelmap_path:Path) -> None:
+#    def __init__(self,Path_To_Ckpt:Path,Labelmap_Path:Path) -> None:
+    def __init__(self,Path_To_Ckpt,Labelmap_Path):
 
 
-        labelmap = label_map_util.load_labelmap(labelmap_path)
+        labelmap = label_map_util.load_labelmap(Labelmap_Path)
 #        self.categories = label_map_util.convert_label_map_to_categories(labelmap
 #                                                                    ,max_num_classes = self._Num_Classes_Label_map(labelmap_path) 
 #                                                                    ,use_display_name=True)
 #        the above thing is returning a list with a dict i need a dict with a dict
 
-        self.categories = label_map_util.create_category_index_from_labelmap(labelmap_path,
+        self.categories = label_map_util.create_category_index_from_labelmap(Labelmap_Path,
                                                                                  use_display_name=True)
         # we can direct extract num class label map "labelmap" variable but it take time for me debugging code so i have use custom function but it not optimally way
         

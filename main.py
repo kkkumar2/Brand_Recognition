@@ -59,8 +59,10 @@ class ClientApp(BrandsLog):
 #path2 = os.path.join('prediction_service','my_model','labelmap.pbtxt')
 #path1 = os.path.join('prediction_service','my_model','saved_model')
 #clApp = ClientApp(path1,path2)
-Pathmodellabelmap = ModelLabelmapPath.get_config_path(os.path.join("config",'config.yaml'))
-clApp = ClientApp(**Pathmodellabelmap)
+#Pathmodellabelmap = ModelLabelmapPath.get_config_path(os.path.join("config",'config.yaml'))
+Path_To_Ckpt,Labelmap_Path = ModelLabelmapPath.get_config_path(os.path.join("config",'config.yaml'))
+clApp = ClientApp(Path_To_Ckpt,Labelmap_Path)
+#clApp = ClientApp(**Pathmodellabelmap)
 
 print("Loggon started")
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
