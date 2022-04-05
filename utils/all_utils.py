@@ -47,8 +47,8 @@ class ModelLabelmapPath:
         labelmap_dir = config['prediction']["labelmap_dir"]
         ckpt_dir = config["prediction"]['ckpt_dir']
         labelmap_name = config['prediction']['labelmap_name']
-        model_name = config['prediction']['model_name']
-        Ckpt_path = os.path.join(prediction_dir,ckpt_dir,model_name)
+#        model_name = config['prediction']['model_name']
+        Ckpt_path = os.path.join(prediction_dir,ckpt_dir)
         labelmap_path = os.path.join(prediction_dir,labelmap_dir,labelmap_name)
 
         return {"Path_To_Ckpt":Ckpt_path,"Labelmap_Path":labelmap_path}

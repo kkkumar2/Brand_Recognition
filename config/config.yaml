@@ -1,0 +1,5 @@
+prediction:
+  prediction_dir: prediction_service
+  labelmap_dir: my_model
+  ckpt_dir: saved_model
+  labelmap_name: labelmap.pbtxt
