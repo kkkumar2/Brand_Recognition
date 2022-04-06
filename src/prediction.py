@@ -98,7 +98,7 @@ class BrandsLog:
 		v = v.draw_instance_predictions(outputs["instances"].to("cpu"),self.class_name_list)
 		predicted_image = v.get_image()
 
-		# cv.imwrite("output.jpg",predicted_image)
+		cv.imwrite("output.jpg",predicted_image)
 
 		return predicted_image
 
