@@ -7,7 +7,7 @@ Detectron2 is Facebook AI Research's next generation library that provides state
 
 A brand logo detection system using Detectron2 API. This API will detect the type of logo in the image and this API is also compatible to Accept the Region of interest(ROI) of the detection object 
 
-Acceptable locations : ['TOP','BUTTOM','LEFT',RIGHT']
+Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 
 ## Dataset for Brand_recognition
 
@@ -42,15 +42,15 @@ Acceptable locations : ['TOP','BUTTOM','LEFT',RIGHT']
 
 # Original sample image
 
-|![example1](input.jpg)|
+|![example2](input.jpg)|
 
 # Prediction examples (Full image detection)
 
-|![example1](output.jpg)|
+|![example3](output.jpg)|
 
 # Prediction examples (ROI based image detection LEFT)
 
-|![example1](output2.jpg)|
+|![example4](output2.jpg)|
 
 # deployment
 
