@@ -1,0 +1,9 @@
+prediction:
+  prediction_dir: prediction_service
+  jsonfile_dir: jsonfile
+  jsonfile_name: output.json
+  model_config_dir: model_config
+  output_config: config.yaml 
+  model_config: faster_rcnn_R_50_FPN_3x.yaml
+  save_model_dir: save_model
+  save_model_name: model_final.pth
