@@ -38,7 +38,7 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
    ``` 
 # Glimpse of how Fastapi with swagger ui will look
 
-|![example1](detections\api.PNG)|
+![example1](detections\api.PNG)
 
 # Original sample image
 
