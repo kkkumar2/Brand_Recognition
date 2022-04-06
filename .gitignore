@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+ss.py
+output4.jpg
+.vscode/
+bas64.txt
+json.txt

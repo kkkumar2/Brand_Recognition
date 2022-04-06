@@ -1,0 +1,11 @@
+..ipynb_checkpoints
+aug/
+brand_log_withxml/
+flickr_logos_27_dataset/
+images/
+split/
+test/
+test.csv 
+test.json 
+train.csv 
+train.json 
