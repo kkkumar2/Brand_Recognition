@@ -42,19 +42,19 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 
 # Original sample image
 
-|![example2](detections\input.jpg)|
+|![example1](detections\input.jpg)|
 
 # Prediction examples (Full image detection)
 
-|![example3](detections\full_prediction.jpg)|
+|![example1](detections\full_prediction.jpg)|
 
 # Prediction examples (ROI based image detection LEFT)
 
-|![example4](detections\left_prediction.jpg)|
+|![example1](detections\left_prediction.jpg)|
 
 # Prediction examples (ROI based image detection RIGHT)
 
-|![example4](detections\right_prediction.jpg)|
+|![example1](detections\right_prediction.jpg)|
 
 # deployment
 
