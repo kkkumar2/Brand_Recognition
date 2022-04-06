@@ -38,19 +38,23 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
    ``` 
 # Glimpse of how Fastapi with swagger ui will look
 
-|![example1](api.PNG)|
+|![example1](detections\api.PNG)|
 
 # Original sample image
 
-|![example2](input.jpg)|
+|![example2](detections\input.jpg)|
 
 # Prediction examples (Full image detection)
 
-|![example3](output.jpg)|
+|![example3](detections\full_prediction.jpg)|
 
 # Prediction examples (ROI based image detection LEFT)
 
-|![example4](output2.jpg)|
+|![example4](detections\left_prediction.jpg)|
+
+# Prediction examples (ROI based image detection RIGHT)
+
+|![example4](detections\right_prediction.jpg)|
 
 # deployment
 
