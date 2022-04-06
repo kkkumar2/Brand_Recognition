@@ -1,10 +1,15 @@
-# BrandRecognition
-
-A brand logo detection system using Detectron2 API.
+# Detectron2
 
 Detectron2 is Facebook AI Research's next generation library that provides state-of-the-art detection and segmentation algorithms. It is the successor of Detectron and maskrcnn-benchmark. It supports a number of computer vision research projects and production applications in Facebook.
 
-## Dataset Brand_recognition
+
+# BrandRecognition
+
+A brand logo detection system using Detectron2 API. This API will detect the type of logo in the image and this API is also compatible to Accept the Region of interest(ROI) of the detection object 
+
+Acceptable locations : ['TOP','BUTTOM','LEFT',RIGHT']
+
+## Dataset for Brand_recognition
 
  Download the flickr logos 27 dataset from [here](http://image.ntua.gr/iva/datasets/flickr_logos/).
 
@@ -35,9 +40,17 @@ Detectron2 is Facebook AI Research's next generation library that provides state
 
 |![example1](api.PNG)|
 
-# Prediction examples
+# Original sample image
+
+|![example1](input.jpg)|
+
+# Prediction examples (Full image detection)
 
 |![example1](output.jpg)|
+
+# Prediction examples (ROI based image detection LEFT)
+
+|![example1](output2.jpg)|
 
 # deployment
 
