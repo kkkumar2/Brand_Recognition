@@ -12,6 +12,8 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 ## Dataset for Brand_recognition
 
  Download the flickr logos 27 dataset from [here](http://image.ntua.gr/iva/datasets/flickr_logos/).
+ We have added two classes tata and reliance dataset from [here](https://drive.google.com/file/d/1WikYMsqYD9KI-VZy8JfxXJv7TwUkvfx4/view)
+ How to we prepare data with augmenation in wriiten in Notebook visit and see how to prepare data.
 
    The flickr logos 27 dataset contains 27 classes of brand logo images downloaded from Flickr. The brands included in the dataset are: Adidas, Apple, BMW, Citroen, Coca Cola, DHL, Fedex, Ferrari, Ford, Google, Heineken, HP, McDonalds, Mini, Nbc, Nike, Pepsi, Porsche, Puma, Red Bull, Sprite, Starbucks, Intel, Texaco, Unisef, Vodafone and Yahoo.
 
