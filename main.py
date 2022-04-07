@@ -84,23 +84,19 @@ templates = Jinja2Templates(directory="webapp/templates")
 
 #@app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
 #def predict(file:UploadFile=File(...)):
-#@app.post("/predict")
-
 @app.post("/predict",response_model=ClientImageInput)
 def predict(file:ClientImageInput):
     logging.info("Predict API hitted")
-#    s = file.image
     if not isinstance(file.image ,bytes):
         raise NotEncodeBase64(message="image not in enocde bytes format" )
     elif isinstance(file.image,bytes):
         try:
-#            error_handel_user_images(file.image)
             clApp.base64toimage = file.image
         except :
+            logging.info("image is Not opening")
             raise ImageIsNotOpening(message="image is Not opening")
 
-#    clApp.base64toimage = file.image
-    logging.info("calling  getPredictions")
+    logging.info("calling Predictions")
     start = time.time()
     output = clApp.run_inference()
     end = time.time()

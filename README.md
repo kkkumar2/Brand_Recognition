@@ -1,54 +1,57 @@
-# Brand_Recognition
-Recognizing the brand by their logos
+# Tensorflow Object detect 2 API
+
+TensorFlow is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries, and community resources that lets researchers push the state-of-the-art in ML and developers easily build and deploy ML-powered applications.
 
 
-Project Organization
-------------
+# BrandRecognition
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+A brand logo detection system using Detectron2 API. This API will detect the type of logo in the image and this API is also compatible to Accept the Region of interest(ROI) of the detection object 
 
+Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 
---------
+## Dataset for Brand_recognition
+
+ Download the flickr logos 27 dataset from [here](http://image.ntua.gr/iva/datasets/flickr_logos/).
+
+   The flickr logos 27 dataset contains 27 classes of brand logo images downloaded from Flickr. The brands included in the dataset are: Adidas, Apple, BMW, Citroen, Coca Cola, DHL, Fedex, Ferrari, Ford, Google, Heineken, HP, McDonalds, Mini, Nbc, Nike, Pepsi, Porsche, Puma, Red Bull, Sprite, Starbucks, Intel, Texaco, Unisef, Vodafone and Yahoo.
+
+   ```shell
+   $ wget http://image.ntua.gr/iva/datasets/flickr_logos/flickr_logos_27_dataset.tar.gz
+   $ tar zxvf flickr_logos_27_dataset.tar.gz
+   $ cd flickr_logos_27_dataset
+   $ tar zxvf flickr_logos_27_dataset_images.tar.gz
+   $ cd ../
+   ```
+
+# Preprocessing steps done
+
+1) There is no XML file attached, so you have to generate the XML file from the annotation text file.
+2) Refer the Ipython notebooks in the Notebook folder for reference . ( will add .py file sooner)
+
+# How to use the Brand_Recognition FASTAPI in local
+
+   ```bash
+   $ git clone https://github.com/kkkumar2/Brand_Recognition.git
+   ```
+   ```python
+   uvicorn app:app --reload
+   ``` 
+# Glimpse of how Fastapi with swagger ui will look
+
+![example1](api.PNG)
+
+# Original sample image
+
+|![example1](input.jpg)|
+
+# Prediction examples (Full image detection)
+
+|![example1](full_prediction.jpg)|
+
+# Prediction examples (ROI based image detection LEFT)
+
+|![example1](left_prediction.jpg)|
+
+# deployment
+
+Need to deploy the API

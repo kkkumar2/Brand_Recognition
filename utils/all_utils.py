@@ -4,6 +4,7 @@ from PIL import Image
 import cv2
 import numpy as np
 from pydantic import BaseModel
+from typing import Optional
 from pathlib import Path
 import yaml
 import os
@@ -19,16 +20,16 @@ import os
 
 class ClientImageInput(BaseModel):
     image: bytes
-    # threshold: Optional[float] = 0.4
+    threshold: Optional[float] = 0.5
+    IOR:Optional[str] = None
+    float_center_crop:Optional[float] = 0.0
+    image_crop_ratio: Optional[bool] = False
+    x_axis:Optional[tuple] = (0.0,0.0)
+    y_axis:Optional[tuple] = (0.0,0.0)
 
 
 class ClientImageOutput(BaseModel):
-    className:str  
-    confidence:str  
-    yMin:str
-    xMin:str
-    yMax:str
-    xMax:str
+    image: bytes
 
 
     

@@ -18,35 +18,22 @@ import pathlib
 import glob
 import matplotlib.pyplot as plt
 import cv2
+import time
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
-
-
 # patch tf1 into `utils.ops`
 utils_ops.tf = tf.compat.v1
-
 # Patch the location of gfile
 tf.gfile = tf.io.gfile
 
-
-
-
 class BrandsLog:
-#    def __init__(self,Path_To_Ckpt:Path,Labelmap_Path:Path) -> None:
     def __init__(self,Path_To_Ckpt,Labelmap_Path):
 
 
         labelmap = label_map_util.load_labelmap(Labelmap_Path)
-#        self.categories = label_map_util.convert_label_map_to_categories(labelmap
-#                                                                    ,max_num_classes = self._Num_Classes_Label_map(labelmap_path) 
-#                                                                    ,use_display_name=True)
-#        the above thing is returning a list with a dict i need a dict with a dict
-
         self.categories = label_map_util.create_category_index_from_labelmap(Labelmap_Path,
-                                                                                 use_display_name=True)
-        # we can direct extract num class label map "labelmap" variable but it take time for me debugging code so i have use custom function but it not optimally way
-        
+                                                                                 use_display_name=True)        
         self.model = tf.saved_model.load(Path_To_Ckpt)
 
     @property
@@ -54,12 +41,9 @@ class BrandsLog:
 
         image = Image.open(self.bytesObj)
         del self.bytesObj
-#        img_cv = cv2.cvtColor(np.array(img),cv2.COLOR_RGB2BGR) #https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format
         (im_width, im_height) = image.size
         return np.array(image.getdata()).reshape(
             (im_height, im_width, 3)).astype(np.uint8)
-        
-#        return img_cv
 
     @base64toimage.setter
     def base64toimage(self,img_strings:Optional[bytes]) :
@@ -88,24 +72,15 @@ class BrandsLog:
         
         
     def run_inference_for_single_image(self, model, image):
-        # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
         input_tensor = tf.convert_to_tensor(image)
-        # The model expects a batch of images, so add an axis with `tf.newaxis`.
         input_tensor = input_tensor[tf.newaxis, ...]
-
-        # Run inference
         output_dict = model(input_tensor)
         num_detections = int(output_dict.pop('num_detections'))
         output_dict = {key: value[0, :num_detections].numpy()
                        for key, value in output_dict.items()}
         output_dict['num_detections'] = num_detections
-
-        # detection_classes should be ints.
         output_dict['detection_classes'] = output_dict['detection_classes'].astype(np.int64)
-
-        # Handle models with masks:
         if 'detection_masks' in output_dict:
-            # Reframe the the bbox mask to the image size.
             detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
                 output_dict['detection_masks'], output_dict['detection_boxes'],
                 image.shape[0], image.shape[1])
@@ -114,11 +89,8 @@ class BrandsLog:
 
         return output_dict
 
-    def run_inference(self):
+    def run_inference(self,image,threshold):
         logging.info("Predictions started")
-        image =  self.base64toimage
-#        image_np = np.expand_dims(image,axis=0)
-        # Actual detection.
         model = self.model
         output_dict = self.run_inference_for_single_image(model, image)
         category_index = self.categories
@@ -134,11 +106,10 @@ class BrandsLog:
             line_thickness=8)
         output_filename = 'output.jpg'
         cv2.imwrite(output_filename, image)
-#        ListOfOutput = []
-        ListOfOutput={"image":self._imagetobase64(image)}
+#        ListOfOutput={"image":self._imagetobase64(image)}
         logging.info("Returning from predictions")
-
-        return ListOfOutput
+#        return ListOfOutput
+        return image
 
 
 
