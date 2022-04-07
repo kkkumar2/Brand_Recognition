@@ -46,7 +46,7 @@ class BrandsLog:
         bytesObj = io.BytesIO(base64str) # we used self bytesObj because it size of bytes is less than cv2 so we used 
         self.imagePil = Image.open(bytesObj)
 
-    def _imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
+    def imagetobase64(self,ImageArray:NDArray[Any]) -> ByteString:
         
         img_RGB = cv2.cvtColor(ImageArray,cv2.COLOR_BGR2RGB)
         image_array = Image.fromarray(img_RGB)
@@ -62,7 +62,7 @@ class BrandsLog:
     #     total_classes = re.findall(r"\d+",data)[-1]
     #     return int(total_classes)
 
-    def getPredictions(self):
+    def getPredictions(self,image_array:NDArray,threshold:float= 0.7):
         
         image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
         detection_boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
@@ -71,46 +71,15 @@ class BrandsLog:
         num_detections = self.detection_graph.get_tensor_by_name('num_detections:0')
 
         category_index = label_map_util.create_category_index(self.categories)
-        class_name_mapping = {item["id"]:item["name"] for item in self.categories}
-        min_score_thresh = 0.30 
-
         sess = tf.Session(graph=self.detection_graph)
 
-        image =  self.base64toimage
+        image =  image_array
         image_expand = np.expand_dims(image,axis=0)
 
 
         (boxes,scores,classes,num) = sess.run([detection_boxes,detection_scores
                                             ,detection_classes,num_detections]
                                            ,feed_dict={image_tensor:image_expand})
-
-        result = scores.flatten()
-        res = [idx for idx,clss_perc in enumerate(result) if clss_perc >0.40]
-
-        top_class = classes.flatten()
-
-        res_list = [top_class[i] for i in res]
-        clss_name = [class_name_mapping[i] for i in res_list]
-
-        top_score = [i for i in result if i > min_score_thresh]
-        new_box = boxes.squeeze()
-        max_boxes_to_draw = new_box.shape[0]
-
-        ListOfOutput = []
-
-        for name,score,i in zip(clss_name,top_score,range(min(max_boxes_to_draw,new_box.shape[0]))):
-            valDict = {}
-            valDict['className'] = name 
-            valDict['confidence'] = str(score) 
-
-            if result is None or result[i] > min_score_thresh:
-                val = list(new_box[i] )
-                valDict["yMin"] = str(val[0])
-                valDict['xMin'] = str(val[1])
-                valDict['yMax'] = str(val[2])
-                valDict['xMax'] = str(val[3])
-
-                ListOfOutput.append(valDict)
             
         vis_util.visualize_boxes_and_labels_on_image_array(
             image
@@ -120,15 +89,13 @@ class BrandsLog:
             ,category_index
             ,use_normalized_coordinates=True
             ,line_thickness=10 
-            ,min_score_thresh = 0.60
+            ,min_score_thresh = threshold
 
             )
         
-        # cv2.imwrite("output4.jpg",image)
+        cv2.imwrite("output4.jpg",image)
+    
 
-        ListOfOutput.append({"image":self._imagetobase64(image)})
-
-        return ListOfOutput
-
+        return image
 
 

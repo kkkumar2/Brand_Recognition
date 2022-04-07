@@ -7,9 +7,16 @@ import uvicorn
 from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from typing import Optional,List,Union,Dict
 from pathlib import Path
-from utils.all_utills import ClientImageInput,ClientImageOutput, ModelLabelmapPath
-from research.prediction import BrandsLog
-import os
+from src.utils.all_utills import ClientImageInput,ClientImageOutput, ModelLabelmapPath
+from src.IORpreprocessing import IOR
+import os,logging,time
+
+
+logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
+logs_dir = 'logs'
+os.makedirs(logs_dir, exist_ok=True)
+logging.basicConfig(filename = os.path.join(logs_dir, 'app.log'), level=logging.INFO, format=logging_str,filemode='a')
+
 
 app  = FastAPI()
 
@@ -48,13 +55,13 @@ def image_not_open(request:Request , exc:ImageIsNotOpening):
     )
 
 Pathmodellabelmap = ModelLabelmapPath.get_config_path(os.path.join("config",'config.yaml'))
-class ClientApp(BrandsLog):
+class ClientApp(IOR):
     def __init__(self,**kwargs):
         super(ClientApp, self).__init__(**kwargs)
 
 
-clApp = ClientApp(**Pathmodellabelmap)
-
+cliApp = ClientApp(**Pathmodellabelmap)
+logging.info("clientapp start")
 
 # templates = Jinja2Templates(directory="webapp/templates")
 
@@ -63,19 +70,37 @@ clApp = ClientApp(**Pathmodellabelmap)
 #     return templates.TemplateResponse("index.html",{"request":request})
 
 
-@app.post("/predict",response_model=List[Union[ClientImageOutput,ClientImageInput]])
+@app.post("/predict",response_model=ClientImageOutput)
 def predict(file:ClientImageInput):
+    since = time.time()
+    logging.info("Predict API hitted")
+
+
     if not isinstance(file.image ,bytes):
+        logging.info("image is not in bytes format")
         raise NotEncodeBase64(message="image not in enocde bytes format" )
+
     elif isinstance(file.image,bytes):
         try:
-            clApp.base64toimage = file.image
+            cliApp.base64toimage = file.image
         except :
+            logging.info("Image is not opening")
             raise ImageIsNotOpening(message="image is Not opening")
 
+    if file.IOR in ['left','right']:
+        output = cliApp.xaxis(file.IOR,file.threshold)
     
-    output = clApp.getPredictions()
+    elif file.IOR in ['top','buttom']:
+        output = cliApp.yaxis(file.IOR,file.threshold)
+    else:
+        output = cliApp.crop(file.threshold,file.float_center_crop)
+        # output = cliApp.amount_cut_images() #y_axis=(0.2,0.8),x_axis=(0.2,0.8)
+
+    time_elapsed = time.time() - since
+    logging.info(f"Time is Taken  ::: {time_elapsed % 60:.0f}s imageIOR in mode {file.IOR} ")
+    logging.info(f"{'-'*10}> Output give back to user <{'-'*10}")
     return output
+
     
 if __name__ == "__main__":
     uvicorn.run(app,port=8080)
