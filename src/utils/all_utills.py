@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from pathlib import Path
 import yaml
 import os
-from typing import Optional
+from typing import Optional,Tuple
 # def error_handel_user_images(base64bytes:str):
 
 #     base64str = base64.b64decode(base64bytes)
@@ -19,9 +19,12 @@ from typing import Optional
 
 class ClientImageInput(BaseModel):
     image: bytes
-    threshold: Optional[float] = 0.7
+    threshold: Optional[float] = 0.3
     IOR:Optional[str] = None
     float_center_crop:Optional[float] = 0.0
+    image_crop_manual:bool = False
+    x_axis:Optional[Tuple[int,int]] = (0,0)
+    y_axis:Optional[Tuple[int,int]] = (0,0)
 
 
 class ClientImageOutput(BaseModel):

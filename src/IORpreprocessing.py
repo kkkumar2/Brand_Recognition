@@ -1,7 +1,7 @@
 import cv2 as cv
 from nptyping import NDArray
 from research.prediction import BrandsLog
-from typing import Dict,ByteString,Tuple
+from typing import Dict,ByteString,Tuple,Optional
 
 
 class IOR(BrandsLog):
@@ -59,6 +59,7 @@ class IOR(BrandsLog):
             cut_pixel_width_side = int(percent_crop*width)//2
 
             crop_img = img[cut_pixel_height_side : -cut_pixel_height_side , cut_pixel_width_side : -cut_pixel_width_side]
+            
             crop_predict_img = self.getPredictions(crop_img,thresholds)
             img[cut_pixel_height_side : -cut_pixel_height_side , cut_pixel_width_side : -cut_pixel_width_side] = crop_predict_img 
         
@@ -69,32 +70,39 @@ class IOR(BrandsLog):
         base64img = self.imagetobase64(img)
         return {"image": base64img}
 
-    def amount_cut_images(self,x_axis:Tuple[float,float]=None,y_axis:Tuple[float,float]=None) -> Dict[str,ByteString]:
-        
+    def amount_cut_images(self,x_axis:Tuple[float,float]=None,y_axis:Tuple[float,float]=None,thresholds:Optional[float]=0.3) -> Dict[str,ByteString]:
+        """
+
+        Args:
+            x_axis (Tuple[float,float]) = (xmin,xmax)
+            y_axis (Tuple[float,float]) = (ymin,ymax)
+            thresholds:Optional[float]=0.3
+
+        """
         img = self.base64toimage
         
         if isinstance(x_axis,Tuple) or isinstance(y_axis,Tuple):
             height,width,_ = img.shape
 
             if isinstance(x_axis,tuple):
-                start_pixel_width = int(width*x_axis[0])
-                end_pixel_width = int(width*x_axis[1])
+                start_pixel_width = x_axis[0]
+                end_pixel_width = x_axis[1]
                 cut_img_width = img[ : ,   start_pixel_width: end_pixel_width]
 
             if isinstance(y_axis,tuple):
-                start_pixel_height = int(height*y_axis[0])
-                end_pixel_height = int(height*y_axis[1])
+                start_pixel_height = y_axis[0]
+                end_pixel_height = y_axis[1]
 
                 if isinstance(x_axis,tuple):
                     cut_img_height_width =   cut_img_width[start_pixel_height: end_pixel_height]
-                    cut_img = self.getPredictions(cut_img_height_width)
+                    cut_img = self.getPredictions(cut_img_height_width,thresholds)
                 else:
                     cut_img_height = img[  start_pixel_height:   end_pixel_height]
                     # cv.imwrite('width.jpg', cut_img_height)
-                    cut_img = self.getPredictions(cut_img_height)
+                    cut_img = self.getPredictions(cut_img_height,thresholds)
 
             elif isinstance(x_axis,tuple):
-                cut_img = self.getPredictions(cut_img_width)
+                cut_img = self.getPredictions(cut_img_width,thresholds)
                 
             # cv.imwrite("cut.jpg",cut_img)
 
