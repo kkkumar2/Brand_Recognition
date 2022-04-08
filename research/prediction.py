@@ -36,8 +36,9 @@ class BrandsLog:
 
     @property
     def base64toimage(self) -> NDArray[np.uint8]  :
-
         img_cv = cv2.cvtColor(np.array(self.imagePil),cv2.COLOR_RGB2BGR) #https://stackoverflow.com/questions/14134892/convert-image-from-pil-to-opencv-format      
+        # cv2.imwrite("input.jpg",img_cv)
+        
         return img_cv
 
     @base64toimage.setter
@@ -62,7 +63,7 @@ class BrandsLog:
     #     total_classes = re.findall(r"\d+",data)[-1]
     #     return int(total_classes)
 
-    def getPredictions(self,image_array:NDArray,threshold:float= 0.7):
+    def getPredictions(self,image_array:NDArray,threshold:float= 0.2):
         
         image_tensor = self.detection_graph.get_tensor_by_name('image_tensor:0')
         detection_boxes = self.detection_graph.get_tensor_by_name('detection_boxes:0')
@@ -93,7 +94,7 @@ class BrandsLog:
 
             )
         
-        cv2.imwrite("output4.jpg",image)
+        # cv2.imwrite("output.jpg",image)
     
 
         return image
