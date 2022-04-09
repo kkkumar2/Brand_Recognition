@@ -81,6 +81,7 @@ class IOR(BrandsLog):
     def amount_cut_images(self,x_axis:Tuple[float,float]=None,y_axis:Tuple[float,float]=None) -> Dict[str,ByteString]:
         
         img = self.base64toimage
+        blurred_img = cv.GaussianBlur(img, (21, 21), 0) 
         
         if isinstance(x_axis,Tuple) or isinstance(y_axis,Tuple):
             height,width,_ = img.shape
@@ -110,18 +111,21 @@ class IOR(BrandsLog):
             if isinstance(y_axis,tuple):
                 if isinstance(x_axis,tuple):
                     cut_img_width[start_pixel_height: end_pixel_height] = cut_img
-                    img[ : ,   start_pixel_width: end_pixel_width] = cut_img_width
+#                    img[ : ,   start_pixel_width: end_pixel_width] = cut_img_width
+                    blurred_img[ : ,   start_pixel_width: end_pixel_width] = cut_img_width
                 else:
-                    img[  start_pixel_height:   end_pixel_height] = cut_img
+#                    img[  start_pixel_height:   end_pixel_height] = cut_img
+                    blurred_img[  start_pixel_height:   end_pixel_height] = cut_img
             elif isinstance(x_axis,tuple):
-                img[ : ,   start_pixel_width: end_pixel_width] = cut_img
+#                img[ : ,   start_pixel_width: end_pixel_width] = cut_img
+                blurred_img[ : ,   start_pixel_width: end_pixel_width] = cut_img
 
         else:
             normal_img = img
             img = self.run_inference(normal_img,0.5)
+            blurred_img = img
         
-        
-        base64img = self._imagetobase64(img)
+        base64img = self._imagetobase64(blurred_img)
 
         return {"image": base64img}
 
