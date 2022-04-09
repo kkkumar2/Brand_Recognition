@@ -1,7 +1,7 @@
 from app import app 
 import pytest
 from starlette.testclient import TestClient
-from utils.all_utills import read_yaml
+from src.utils.all_utills import read_yaml
 import os
 import numpy as np
 from PIL import Image

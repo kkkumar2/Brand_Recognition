@@ -30,8 +30,8 @@ def test_base64toimage(test_create_random_base64image):
     assert array.dtype == np.dtype(np.uint8)
 
 
-#def test_getPredictions():
-#
-#    output = logo.getPredictions()
-#    assert isinstance(output,list)
-#   assert "image" in output[-1]    
+def test_getPredictions():
+
+    output = logo.getPredictions(logo.base64toimage)
+    assert isinstance(output,np.ndarray)
+    assert output.dtype == np.dtype(np.uint8)
