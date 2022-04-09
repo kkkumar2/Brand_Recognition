@@ -45,37 +45,37 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 # Original sample image
 |||
 |---|---|
-|![example2](input.jpg)|![example3](data\\cocacola.jpg)|
+|![example2](input.jpg)|![example3](cocacola.jpg)|
 
 
 # Prediction examples (Full image detection)
 
 
-|![example4](full_prediction.jpg)|![example5](data\\full_image_prediction.png)|
+|![example4](full_prediction.jpg)|![example5](full_image_prediction.png)|
 
 # Prediction examples (ROI based image detection LEFT)
 
-|![example6](data\left_prediction.png)|
+|![example6](left_prediction.png)|
 
 # Prediction examples (ROI based image detection RIGHT)
 
-|![example7](data\right_prediction.png)|
+|![example7](right_prediction.png)|
 
 # Prediction examples (ROI based image detection TOP)
 
-|![example8](data\top_prediction.png)|
+|![example8](top_prediction.png)|
 
 # Prediction examples (ROI based image detection BOTTOM)
 
-|![example9](data\bottom_prediction.png)|
+|![example9](bottom_prediction.png)|
 
 # Prediction examples (ROI based image detection CENTER RATO BASED CROP)
 
-|![example10](data\center_crop_prediction.png)|
+|![example10](center_crop_prediction.png)|
 
 # Prediction examples (ROI based image detection X AXIS Y AXIS RATIO BASED CROP)
 
-|![example11](data\axis_prediction.png)|
+|![example11](axis_prediction.png)|
 
 
 # deployment
