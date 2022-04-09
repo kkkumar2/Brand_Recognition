@@ -17,6 +17,7 @@ import base64
 from typing import Optional,ByteString,Any
 from nptyping import NDArray
 from collections import namedtuple
+import time
 
 
 class BrandsLog:
@@ -50,11 +51,20 @@ class BrandsLog:
 
 		# build model from weights
 		# self.cfg.MODEL.WEIGHTS = self.convert_model_for_inference()
+#		start = time.time()
+#		coco_api = COCO(Json_file)
+#		cat_ids = sorted(coco_api.getCatIds())
+#		cats = coco_api.loadCats(cat_ids)
+#		self.class_name_list = [name['name'] for name in cats]
+#		end = time.time()
+#		print(f'The total time taken to fetch the class names are {end-start}')
 
-		coco_api = COCO(Json_file)
-		cat_ids = sorted(coco_api.getCatIds())
-		cats = coco_api.loadCats(cat_ids)
-		self.class_name_list = [name['name'] for name in cats]
+#		start = time.time()
+		file = open(Json_file)
+		a = json.load(file)
+		self.class_name_list = [a['categories'][i]['name'] for i in range(len(a['categories']))]
+#		end = time.time()
+#		print(f'The total time taken to fetch the class names are {end-start}')
 
 
 	@property

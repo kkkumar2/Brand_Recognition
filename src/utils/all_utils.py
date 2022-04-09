@@ -10,7 +10,7 @@ class ClientImageInput(BaseModel):
     threshold: Optional[float] = 0.5
     IOR:Optional[str] = None
     float_center_crop:Optional[float] = 0.0
-
+    
 
 class ClientImageOutput(BaseModel):
     image: bytes

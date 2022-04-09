@@ -93,7 +93,7 @@ def predict(file:ClientImageInput):
         output = cliApp.yaxis(file.IOR,file.threshold)
     else:
         output = cliApp.crop(file.threshold,file.float_center_crop)
-        # output = cliApp.amount_cut_images() #y_axis=(0.2,0.8),x_axis=(0.2,0.8)
+        output = cliApp.amount_cut_images() #y_axis=(0.2,0.8),x_axis=(0.2,0.8)
 
     time_elapsed = time.time() - since
     logging.info(f"Time is Taken  ::: {time_elapsed % 60:.0f}s imageIOR in mode {file.IOR} ")
