@@ -41,7 +41,7 @@ Also Create ROI For (x_axis and y_axis) in IORpreprocessing.py file. But we are 
    ``` 
 # Glimpse of how Fastapi with swagger ui will look
 
-![example1](img/fastapi.png)
+![example1](img/fastapi1.png)
 
 # Original sample image with Prediction (Full image detection)
 
