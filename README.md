@@ -12,8 +12,11 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
 ## Dataset for Brand_recognition
 
  Download the flickr logos 27 dataset from [here](http://image.ntua.gr/iva/datasets/flickr_logos/).
+ 
+ We have added two classes tata and reliance dataset from [here](https://drive.google.com/file/d/1WikYMsqYD9KI-VZy8JfxXJv7TwUkvfx4/view)
+ 
 
-   The flickr logos 27 dataset contains 27 classes of brand logo images downloaded from Flickr. The brands included in the dataset are: Adidas, Apple, BMW, Citroen, Coca Cola, DHL, Fedex, Ferrari, Ford, Google, Heineken, HP, McDonalds, Mini, Nbc, Nike, Pepsi, Porsche, Puma, Red Bull, Sprite, Starbucks, Intel, Texaco, Unisef, Vodafone and Yahoo.
+   The flickr logos 27 dataset contains 27 classes of brand logo images downloaded from Flickr. The brands included in the dataset are: Adidas, Apple, BMW, Citroen, Coca Cola, DHL, Fedex, Ferrari, Ford, Google, Heineken, HP, McDonalds, Mini, Nbc, Nike, Pepsi, Porsche, Puma, Red Bull, Sprite, Starbucks, Intel, Texaco, Unisef, Vodafone and Yahoo,Reliance,Tata.
 
    ```shell
    $ wget http://image.ntua.gr/iva/datasets/flickr_logos/flickr_logos_27_dataset.tar.gz
@@ -38,23 +41,23 @@ Acceptable ROI :  ['TOP','BUTTOM','LEFT',RIGHT','CENTER CROP']
    ``` 
 # Glimpse of how Fastapi with swagger ui will look
 
-![example1](api.PNG)
+![example1](img/api.PNG)
 
 # Original sample image
 
-|![example1](input.jpg)|
+|![example1](img/input.jpg)|
 
 # Prediction examples (Full image detection)
 
-|![example1](full_prediction.jpg)|
+|![example1](img/full_prediction.jpg)|
 
 # Prediction examples (ROI based image detection LEFT)
 
-|![example1](left_prediction.jpg)|
+|![example1](img/left_prediction.jpg)|
 
 # Prediction examples (ROI based image detection RIGHT)
 
-|![example1](right_prediction.jpg)|
+|![example1](img/right_prediction.jpg)|
 
 # deployment
 
