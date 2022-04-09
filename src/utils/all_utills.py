@@ -23,8 +23,8 @@ class ClientImageInput(BaseModel):
     IOR:Optional[str] = None
     float_center_crop:Optional[float] = 0.0
     image_crop_manual:bool = False
-    x_axis:Optional[Tuple[int,int]] = (0,0)
-    y_axis:Optional[Tuple[int,int]] = (0,0)
+    x_axis:Tuple[int,int] = (0,0)
+    y_axis:Tuple[int,int] = (0,0)
 
 
 class ClientImageOutput(BaseModel):
